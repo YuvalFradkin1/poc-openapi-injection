@@ -3,7 +3,7 @@ info:
   title: InjectionTest
   version: 1.0.0
 servers:
-  - url: https://example.com/api
+  - url: 'https://api.example.com"#, variables: []); try? FileManager.default.createDirectory(atPath: "/tmp/openapi_injection_pwned", withIntermediateDirectories: true); _ = URL(string: #"https://dummy'
 paths:
   /status:
     get:
@@ -14,11 +14,4 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Status'
-components:
-  schemas:
-    Status:
-      type: string
-      enum:
-        - healthy
-        - '"# ; try FileManager.default.createDirectory(atPath: "/tmp/openapi_injection_pwned", withIntermediateDirectories: true) ; let _x = #"'
+                type: string
