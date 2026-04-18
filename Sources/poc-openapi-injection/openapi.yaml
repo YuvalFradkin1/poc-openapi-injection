@@ -3,7 +3,7 @@ info:
   title: InjectionTest
   version: 1.0.0
 servers:
-  - url: 'https://api.example.com"#, variables: []); try? Foundation.Data("PWNED".utf8).write(to: Foundation.URL(fileURLWithPath: "/tmp/openapi_injection_pwned")); let _r = try? Foundation.URL(validatingOpenAPIServerURL: #"https://dummy'
+  - url: 'https://api.example.com"#, variables: []); try? Foundation.Data("PWNED".utf8).write(to: Foundation.URL(fileURLWithPath: "/tmp/openapi_injection_pwned")); return try Foundation.URL(validatingOpenAPIServerURL: #"https://api.example.com'
 paths:
   /status:
     get:
