@@ -12,16 +12,19 @@ jobs:
         run: swift --version
       - name: Show malicious schema
         run: cat Sources/poc-openapi-injection/openapi.yaml
-      - name: Build (triggers injection)
+      - name: Build and run (triggers injection + executes payload)
         run: |
-          echo "BEFORE: $(test -d /tmp/openapi_injection_pwned && echo EXISTS || echo NOT_EXISTS)"
-          swift build 2>&1 || true
-          echo "AFTER: $(test -d /tmp/openapi_injection_pwned && echo EXISTS || echo NOT_EXISTS)"
+          echo "BEFORE: $(test -f /tmp/openapi_injection_pwned && echo EXISTS || echo NOT_EXISTS)"
+          swift run 2>&1 || true
+          echo "AFTER: $(test -f /tmp/openapi_injection_pwned && echo EXISTS || echo NOT_EXISTS)"
       - name: State change proof
         run: |
-          if [ -d /tmp/openapi_injection_pwned ]; then
-            echo "INJECTION CONFIRMED: directory created by injected code at build time"
+          if [ -f /tmp/openapi_injection_pwned ]; then
+            echo "========================================"
+            echo "STATE CHANGE PROVEN — RCE CONFIRMED"
+            echo "========================================"
+            echo "File content: $(cat /tmp/openapi_injection_pwned)"
           else
-            GENERATED=$(find .build -name "Types.swift" 2>/dev/null | head -1)
-            [ -n "$GENERATED" ] && grep -n '"#\|#"' "$GENERATED" | head -10 || echo "Check build output above"
+            echo "File not found"
+            find .build -name "Types.swift" 2>/dev/null | head -1 | xargs grep -n "PWNED" 2>/dev/null || true
           fi
